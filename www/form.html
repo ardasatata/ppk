@@ -1,0 +1,148 @@
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="css/ionic.css">
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/geturi.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        var id = decodeURI(getUrlVars()["id"]);
+        var nama = decodeURI(getUrlVars()["nama"]);
+        var kelas = decodeURI(getUrlVars()["kelas"]);
+        var foto = "http://"+decodeURI(getUrlVars()["foto"]);
+        $("#id").val(id);
+        $("#nama").val(nama);
+        $("#kelas").val(kelas);
+        $("#fotos").attr('src',foto);
+        //$("#foto").val(foto);
+
+        // $("#updatea").click(function() {
+        //     var id = $("#id").val();
+        //     var title = $("#title").val();
+        //     var duration = $("#duration").val();
+        //     var price = $("#price").val();
+        //     var dataString = "id=" + id + "&title=" + title + "&duration=" + duration + "&price=" + price + "&update=";
+        //     $.ajax({
+        //         type: "POST",
+        //         url: "http://localhost/phonegap_demo/update.php",
+        //         data: dataString,
+        //         crossDomain: true,
+        //         cache: false,
+        //         beforeSend: function() {
+        //             $("#update").val('Connecting...');
+        //         },
+        //         success: function(data) {
+        //             if (data == "success") {
+        //                 alert("Updated");
+        //                 $("#update").val("Update");
+        //             } else if (data == "error") {
+        //                 alert("error");
+        //             }
+        //         }
+        //     });
+
+        // });
+
+        $("#update").click(function() {
+            var nama = $("#nama").val();
+            var kelas = $("#kelas").val();
+            var foto = $("#foto").prop('files')[0];
+            var id = $("#id").val();
+            var dataString = "nama=" + nama + "&kelas=" + kelas + "&foto=" + foto + "&insert=";
+
+            var form_data = new FormData();                  
+            form_data.append('foto', foto);
+            form_data.append('nama', nama);
+            form_data.append('kelas', kelas);
+            form_data.append('id', id);
+
+            if ($.trim(nama).length > 0 & $.trim(kelas).length > 0 ) {
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost/project2/update.php",
+                    data: form_data,
+                    crossDomain: true,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    beforeSend: function() {
+                        $("#update").val('Connecting...');
+                    },
+                    success: function(data) {
+                        if (data == "success") {
+                            alert("inserted");
+                            $("#insert").val('submit');
+                        } else if (data == "error") {
+                            alert("error");
+                        }
+                    }
+                });
+            }
+            return false;
+        });
+
+        $("#delete").click(function() {
+            var id = $("#id").val();
+            var dataString = "id=" + id + "&delete=";
+            $.ajax({
+                type: "GET",
+                url: "http://localhost/project2/delete.php",
+                data: dataString,
+                crossDomain: true,
+                cache: false,
+                beforeSend: function() {
+                    $("#delete").val('Connecting...');
+                },
+                success: function(data) {
+                    if (data == "success") {
+                        alert("Deleted");
+                        $("#delete").val("Delete");
+                    } else if (data == "error") {
+                        alert("error");
+                    }
+                }
+            });
+
+        });
+    });
+    </script>
+</head>
+
+<body>
+    <div class="bar bar-header bar-dark" style="margin-bottom:80px;">
+        <a href="index.html" class="button button-clear">Home</a>
+        <h1 class="title">Update Data</h1>
+        <a class="button button-clear" href="readjson.html">List</a>
+    </div>
+    <br/>
+    <br/>
+    <div class="list">
+        <input type="hidden" id="id" value="" />
+        <div class="item">
+            <label>Nama</label>
+            <input type="text" id="nama" value="" />
+        </div>
+        <div class="item">
+            <label>Kelas</label>
+            <select name="cars" id="kelas">
+                <option value="XII-A">XII-A</option>
+                <option value="XII-B">XII-B</option>
+                <option value="XII-C">XII-C</option>
+                <option value="XII-Aksel">XII-Aksel</option>
+            </select>
+        </div>
+            <div class="item">
+            <label>Foto</label>
+            <input type="file" id="foto" value="" />
+        </div>
+        <div class="item">
+            <img src="" id="fotos" width="25%">
+        </div>
+        <div class="item">
+            <input type="button" id="update" class="button button-block" value="Update" />
+            <input type="button" id="delete" class="button button-block" value="Delete" />
+        </div>
+    </div>
+</body>
+
+</html>

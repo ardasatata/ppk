@@ -1,0 +1,40 @@
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="css/ionic.css">
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        var url = "http://localhost/project2/json.php";
+        $.getJSON(url, function(result) {
+            console.log(result);
+            $.each(result, function(i, field) {
+                var id = field.id;
+                var nama = field.nama;
+                var kelas = field.kelas;
+                var foto = field.foto;
+                $("#listview").append("<a class='item' href='form.html?id=" + id + "&nama=" + nama + "&kelas=" + kelas + "&foto=" + foto + "'><span class='item-note'><img src=" + "http://"+foto + "></span><h2>" + nama + " </h2><p>" + kelas + "</p></a>");
+            });
+        });
+    });
+    </script>
+    <style type="text/css">img {
+    border-radius: 8px;
+    height:64px ;
+    width:64px;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="bar bar-header bar-royal" style="margin-bottom:80px;">
+        <a href="index.html" class="button button-clear">Home</a>
+        <h1 class="title">Data Siswa</h1>
+    </div>
+    <br/>
+    <br/>
+    <ul class="list" id="listview">
+    </ul>
+</body>
+
+</html>
